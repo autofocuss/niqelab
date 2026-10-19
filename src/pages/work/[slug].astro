@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import { projects } from '../../data/site';
+
+export function getStaticPaths() {
+  return projects.map((p, i) => ({
+    params: { slug: p.slug },
+    props: { project: p, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+const { project: p, next } = Astro.props;
+---
+<Base title={p.title} description={`${p.title}: ${p.kind}, a live website at ${p.domain}.`}>
+  <section class="wrap pad--tight">
+    <p class="hero__eyebrow">{p.kind}</p>
+    <h1 data-split="lines" data-intro class="h2" style="font-size: var(--t-xl);">{p.title}</h1>
+    <div style="display:flex; gap:1.5rem; margin-top:1rem; flex-wrap:wrap;" class="mono">
+      <span style="color: var(--c-muted);">{p.domain}</span>
+      <a href={p.url} target="_blank" rel="noopener" class="link" style={`color:${p.accent}`}>Visit the live site &rarr;</a>
+    </div>
+  </section>
+
+  <section class="wrap pad--tight">
+    <div data-reveal="scale" data-intro style={`border-radius: var(--radius); overflow:clip; border:1.5px solid var(--c-fg); background:${p.tint}; padding: 1rem;`}>
+      <img src={p.image} alt={`${p.title} website, home page`} width="800" height="600" style="width:100%; height:auto; border-radius:8px; box-shadow:0 20px 40px rgb(0 0 0 / 0.16);" />
+    </div>
+  </section>
+
+  <section class="wrap pad--tight">
+    <div class="pair">
+      <div data-reveal="up">
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">What it needed</p>
+        <p style="font-size:1.05rem; line-height:1.65; color: var(--c-fg-soft);">{p.note}</p>
+      </div>
+      <div data-reveal="up" data-delay="0.1">
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">What we'd point to</p>
+        <ul style="padding-left:1.1rem; line-height:1.85; font-size:1.05rem; color: var(--c-fg-soft);">
+          <li>A home page built around one clear next step</li>
+          <li>Loads fast and reads clearly on a phone</li>
+          <li>A design system specific to this business, not a theme</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap pad--tight" style="border-top:1px solid var(--c-line);">
+    <a href={`/niqelab/work/${next.slug}/`} class="roll" style="display:inline-block;">
+      <span style="display:block;">
+        <span class="mono" style="font-size:0.7rem; color: var(--c-muted); text-transform:uppercase; letter-spacing:0.06em;">Next project</span>
+        <span class="h2" style="display:block; font-size: var(--t-l); margin-top:0.4rem;">{next.title} &rarr;</span>
+      </span>
+      <span aria-hidden="true" style="display:block;">
+        <span class="mono" style="font-size:0.7rem; color: var(--c-muted); text-transform:uppercase; letter-spacing:0.06em;">Next project</span>
+        <span class="h2" style="display:block; font-size: var(--t-l); margin-top:0.4rem;">{next.title} &rarr;</span>
+      </span>
+    </a>
+  </section>
+</Base>
