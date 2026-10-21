@@ -1,14 +1,21 @@
 ---
-// Illustrative, not a real dashboard: these are examples of what a good site produces,
-// the same honest-device technique brandeddoctor.com uses (see DESIGN.md addendum).
+// Illustrative, not a real dashboard: these are examples of what a good site
+// produces (a lead, a booking, a chat), the same honest-device technique
+// brandeddoctor.com uses with its own generic "Dr. Your Name" placeholder.
+// The 5 slots below are fixed DOM nodes; motion/notifications.ts cycles their
+// content from the full `notifications` pool so the feed keeps moving instead
+// of playing once and sitting still (see DESIGN.md addendum).
 import { notifications } from '../data/site';
 const icons: Record<string, string> = {
   'Website form': 'W',
   WhatsApp: 'WA',
   Bookings: '✓',
   Search: 'S',
+  Maps: 'M',
   Analytics: 'A',
 };
+const visible = notifications.slice(0, 5);
+const poolJson = JSON.stringify(notifications);
 ---
 <div class="phone" data-reveal="scale" data-intro>
   <div class="phone__frame">
@@ -17,17 +24,17 @@ const icons: Record<string, string> = {
       <span class="phone__time">9:41</span>
       <span class="phone__day mono">Today</span>
     </div>
-    <div class="phone__stack">
-      {notifications.map((n, i) => (
-        <div class="notice" data-reveal="up" data-intro data-delay={0.16 + i * 0.05}>
-          <span class="notice__icon mono" aria-hidden="true">{icons[n.app] ?? n.app[0]}</span>
+    <div class="phone__stack" data-notify data-notify-pool={poolJson} data-notify-start="5">
+      {visible.map((n, i) => (
+        <div class="notice" data-slot={i}>
+          <span class="notice__icon mono" aria-hidden="true" data-slot-icon>{icons[n.app] ?? n.app[0]}</span>
           <div class="notice__body">
             <div class="notice__row">
-              <span class="notice__app mono">{n.app.toUpperCase()}</span>
-              <span class="notice__time mono">{n.time}</span>
+              <span class="notice__app mono" data-slot-app>{n.app.toUpperCase()}</span>
+              <span class="notice__time mono" data-slot-time>{n.time}</span>
             </div>
-            <p class="notice__lead">{n.lead}</p>
-            <p class="notice__text">{n.body}</p>
+            <p class="notice__lead" data-slot-lead>{n.lead}</p>
+            <p class="notice__text" data-slot-text>{n.body}</p>
           </div>
         </div>
       ))}

@@ -5,6 +5,7 @@ import { startFocus } from './focus';
 import { startIdle } from './idle';
 import { startButtonFill } from './buttonFill';
 import { startInquiry } from './inquiry';
+import { startNotifyLoop } from './notifications';
 
 // The click point the iris transition opens/closes from (DESIGN.md "signature moment").
 let point = { x: innerWidth / 2, y: innerHeight / 2 };
@@ -44,4 +45,5 @@ export function setupMotion() {
   startFocus();
   startButtonFill();
   startInquiry();
+  startNotifyLoop();
 }

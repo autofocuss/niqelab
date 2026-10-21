@@ -51,5 +51,20 @@ export const startInquiry = () => onPage(() => {
     off.push(() => btn.removeEventListener('click', handler));
   });
 
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  if (form) {
+    const submit = (e: SubmitEvent) => {
+      e.preventDefault(); // no backend: compose a mailto instead (see contact.astro note)
+      const data = new FormData(form);
+      const name = String(data.get('name') || '').trim();
+      const email = String(data.get('email') || '').trim();
+      const message = String(data.get('message') || '').trim();
+      const body = `Hi NiqeLab,\n\n${message}\n\n-- \n${name}\n${email}`;
+      window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(`NiqeLab project inquiry from ${name || 'the contact form'}`)}&body=${encodeURIComponent(body)}`;
+    };
+    form.addEventListener('submit', submit);
+    off.push(() => form.removeEventListener('submit', submit));
+  }
+
   return () => off.forEach((f) => f());
 });

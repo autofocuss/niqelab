@@ -1,7 +1,7 @@
 /* NiqeLab component styles. Tokens: tokens.css. Engine foundation: engine.css. */
 
-.mono { font-family: var(--f-mono); }
-em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-deep); font-weight: 400; }
+.mono { font-family: var(--f-mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-deep); font-weight: 500; }
 .link {
   text-decoration: none;
   background: linear-gradient(var(--c-accent) 0 0) left bottom / 100% 1px no-repeat;
@@ -13,6 +13,11 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 .wrap { max-width: 78rem; margin-inline: auto; padding-inline: var(--gutter); width: 100%; }
 .pad { padding-block: clamp(3.5rem, 2rem + 6vw, 7rem); }
 .pad--tight { padding-block: clamp(2rem, 1.2rem + 3vw, 3.5rem); }
+/* Two stacked sections each contributing full padding reads as a dead gap
+   (flagged by the team on Home and Work): the first section's bottom
+   padding already provides the breathing room, so the second's top
+   collapses to zero whether or not their backgrounds match. */
+.pad + .pad, .pad--tight + .pad, .pad + .pad--tight { padding-top: 0; }
 
 /* ---- Nav ---- */
 .nav {
@@ -35,11 +40,17 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 }
 .nav__links a.nav-link { display: inline-flex; align-items: center; padding: 0.5rem 0.3rem; min-height: 24px; }
 .nav__links a.nav-link[aria-current='page'] { color: var(--c-accent-deep); }
-.nav__menu-btn { display: none; font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.6rem 0.4rem; }
+.nav__menu-btn { display: none; align-items: center; justify-content: center; width: 2.6rem; height: 2.6rem; border-radius: 50%; }
+@media (hover: hover) { .nav__menu-btn:hover { background: var(--c-bg-dim); } }
+.nav__menu-icon { display: flex; flex-direction: column; gap: 5px; width: 20px; }
+.nav__menu-icon span { display: block; height: 2px; background: currentColor; border-radius: 1px; transition: transform 0.3s ease, opacity 0.3s ease; }
+.nav__menu-btn[aria-expanded='true'] .nav__menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__menu-btn[aria-expanded='true'] .nav__menu-icon span:nth-child(2) { opacity: 0; }
+.nav__menu-btn[aria-expanded='true'] .nav__menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 @media (max-width: 760px) {
   .nav__links { display: none; }
   .btn--solid.nav-cta { display: none; }
-  .nav__menu-btn { display: block; }
+  .nav__menu-btn { display: flex; }
 }
 .nav a.btn--solid { padding: 0.65rem 1.3rem; font-size: 0.75rem; }
 @media (max-width: 760px) { .nav > a.btn--solid { display: none; } }
@@ -100,7 +111,7 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 .hero { padding-top: clamp(2.5rem, 2rem + 2vw, 4rem); padding-bottom: clamp(3rem, 2rem + 4vw, 5rem); }
 .hero__grid { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(1.5rem, 3vw, 3rem); align-items: center; }
 @media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; } }
-.hero__eyebrow { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-muted); margin-bottom: 1.2rem; }
+.hero__eyebrow { font-family: var(--f-mono); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-muted); margin-bottom: 1.2rem; }
 .hero h1 { font-family: var(--f-display); font-size: var(--t-mega); line-height: 0.96; letter-spacing: -0.035em; font-weight: 700; }
 .hero p.lede { font-family: var(--f-body); font-size: clamp(1.05rem, 1rem + 0.5vw, 1.3rem); color: var(--c-fg-soft); max-width: 34rem; margin-top: 1.5rem; line-height: 1.55; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; align-items: center; }
@@ -136,6 +147,9 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 /* ---- Positioning pair ---- */
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2vw, 1.6rem); }
 @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+.pair--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 860px) { .pair--3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .pair--3 { grid-template-columns: 1fr; } }
 .panel { border-radius: var(--radius); padding: clamp(1.4rem, 2vw, 2rem); }
 .panel--dark { background: var(--c-fg); color: var(--c-bg); }
 .panel--light { background: var(--c-bg-dim); border: 1px solid var(--c-line); color: var(--c-fg-soft); }
@@ -225,7 +239,14 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 .ticket h3 { font-family: var(--f-display); font-size: 1.3rem; margin-top: 0.5rem; font-weight: 700; }
 .ticket ul { padding-left: 1.1rem; margin-top: 0.9rem; font-size: 0.88rem; line-height: 1.8; color: var(--c-muted); }
 .ticket--featured ul { color: var(--c-bg); }
-.ticket__foot { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 1.4rem; padding-top: 0.9rem; border-top: 1.5px dashed currentColor; font-family: var(--f-mono); font-size: 0.68rem; }
+.ticket__foot { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 1.4rem; padding-top: 1.1rem; border-top: 1.5px dashed currentColor; }
+.ticket__cta-btn {
+  display: inline-flex; align-items: center; gap: 0.4em; font-family: var(--f-mono); font-weight: 600;
+  font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.65em 1.1em;
+  border-radius: var(--radius-pill); border: 1.5px solid currentColor; transition: transform 0.25s ease;
+}
+.ticket:hover .ticket__cta-btn, .ticket:focus-visible .ticket__cta-btn { transform: translateX(2px); }
+.ticket--featured .ticket__cta-btn { border-color: var(--c-bg); }
 .ticket__status { opacity: 0; transition: opacity 0.2s ease; }
 .ticket.is-copied .ticket__status { opacity: 1; }
 
@@ -239,6 +260,8 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 .post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; margin-top: 2rem; }
 @media (max-width: 880px) { .post-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 580px) { .post-grid { grid-template-columns: 1fr; } }
+.post-grid--2 { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 560px) { .post-grid--2 { grid-template-columns: 1fr; } }
 .post-card {
   display: block; text-decoration: none; color: inherit; background: var(--c-bg-dim);
   border: 1.5px solid var(--c-line); border-radius: var(--radius); padding: 1.5rem;
@@ -246,6 +269,12 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 }
 @media (hover: hover) { .post-card:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgb(14 14 19 / 0.1); border-color: var(--c-fg); } }
 .post-card:focus-visible { transform: translateY(-4px); box-shadow: 0 14px 28px rgb(14 14 19 / 0.1); border-color: var(--c-fg); }
+.post-card__cover {
+  margin: -1.5rem -1.5rem 1.1rem; height: 110px; border-radius: calc(var(--radius) - 1.5px) calc(var(--radius) - 1.5px) 0 0;
+  display: flex; align-items: center; justify-content: center; overflow: clip;
+}
+.post-card__cover svg { opacity: 0.85; transition: transform 0.4s ease; }
+@media (hover: hover) { .post-card:hover .post-card__cover svg { transform: scale(1.12) rotate(4deg); } }
 .post-card__tag { font-family: var(--f-mono); font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--c-accent-deep); }
 .post-card h3 { font-family: var(--f-display); font-size: 1.15rem; margin-top: 0.6rem; font-weight: 700; }
 .post-card p { color: var(--c-muted); font-size: 0.88rem; margin-top: 0.6rem; line-height: 1.55; }
@@ -260,6 +289,7 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 
 /* ---- CTA block ---- */
 .cta { background: var(--c-fg); color: var(--c-bg); }
+.cta.pad { padding-bottom: clamp(2.2rem, 1.6rem + 2.4vw, 3.4rem); } /* less void under a dark block than a paper one needs */
 .cta h2 { color: var(--c-bg); }
 
 /* ---- 404 ---- */
@@ -273,6 +303,19 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 /* ---- Fluid headings shared ---- */
 .h2 { font-family: var(--f-display); font-size: var(--t-xl); line-height: 1.02; letter-spacing: -0.03em; font-weight: 700; }
 
+/* ---- Contact form ---- */
+.contact-form { max-width: 34rem; margin-top: 2.2rem; display: flex; flex-direction: column; gap: 1.1rem; }
+.contact-form__row { display: flex; flex-direction: column; gap: 0.4rem; }
+.contact-form__row label { font-family: var(--f-mono); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--c-muted); }
+.contact-form__row input, .contact-form__row textarea {
+  font-family: var(--f-body); font-size: 1rem; padding: 0.85em 1em; border-radius: 10px;
+  border: 1.5px solid var(--c-line); background: var(--c-bg); color: var(--c-fg); resize: vertical;
+  transition: border-color 0.25s ease;
+}
+.contact-form__row input:focus-visible, .contact-form__row textarea:focus-visible { border-color: var(--c-fg); outline: none; }
+.contact-form button[type='submit'] { align-self: flex-start; margin-top: 0.3rem; }
+.contact-form__note { color: var(--c-muted); font-size: 0.78rem; }
+
 /* ---- Contact ---- */
 .copybar {
   display: inline-flex; align-items: center; gap: 0.7rem; font-family: var(--f-mono); font-size: 0.95rem;
@@ -285,12 +328,18 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 .copybar--dark button { color: var(--c-pop); }
 
 /* ---- Footer ---- */
-.footer { padding: clamp(3rem, 5vw, 5rem) var(--gutter) clamp(1.6rem, 3vw, 2.4rem); border-top: 1px solid var(--c-line); }
-.footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+/* Distinct ink background: the team flagged the old paper-on-paper footer as
+   not reading as its own section. */
+.footer { background: var(--c-fg); color: var(--c-bg); padding: clamp(3rem, 5vw, 5rem) var(--gutter) clamp(1.6rem, 3vw, 2.4rem); }
+.footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: clamp(2rem, 4vw, 3.5rem); }
+.footer__lede { max-width: 26rem; font-size: 1.05rem; line-height: 1.6; color: rgb(247 244 236 / 0.75); }
+.footer__col-label { font-family: var(--f-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(247 244 236 / 0.5); margin-bottom: 0.8rem; }
+.footer__links { display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.95rem; }
+.footer__links a { transition: color 0.25s ease; }
+.footer__links a:hover, .footer__links a:focus-visible { color: var(--c-accent); }
 .footer__cta { font-family: var(--f-display); font-size: var(--t-l); font-weight: 700; }
-.footer__mark { font-family: var(--f-display); font-weight: 800; font-size: clamp(3rem, 2rem + 8vw, 8rem); line-height: 1; letter-spacing: -0.04em; margin-top: clamp(1.5rem, 4vw, 3rem); color: var(--c-fg); opacity: 0.92; }
-.footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--c-line); font-family: var(--f-mono); font-size: 0.75rem; color: var(--c-muted); }
+.footer__mark { font-family: var(--f-display); font-weight: 800; font-size: clamp(3rem, 2rem + 8vw, 8rem); line-height: 1; letter-spacing: -0.04em; margin-top: clamp(1.5rem, 4vw, 3rem); color: var(--c-bg); opacity: 0.94; }
+.footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgb(247 244 236 / 0.14); font-family: var(--f-mono); font-size: 0.75rem; color: rgb(247 244 236 / 0.55); }
 .footer__bottom nav { display: flex; gap: 0.6rem; }
 .footer__bottom nav a { display: inline-flex; align-items: center; padding: 0.5rem 0.4rem; min-height: 24px; transition: color 0.25s ease; }
-.footer__bottom a:hover { color: var(--c-fg); }
-.footer__bottom a:focus-visible { color: var(--c-fg); }
+.footer__bottom a:hover, .footer__bottom a:focus-visible { color: var(--c-bg); }

@@ -128,12 +128,22 @@ export const projects: Project[] = [
 ];
 
 export type Notification = { app: string; time: string; lead: string; body: string };
+// A larger pool than the visible stack (5 slots) so the looping notification
+// stream (NotificationStack.astro + motion/notifications.ts) runs a while
+// before repeating. Illustrative, not real client data — see the component.
 export const notifications: Notification[] = [
   { app: 'Website form', time: 'now', lead: 'New enquiry received', body: '"Do you have anything available this week?"' },
   { app: 'WhatsApp', time: 'now', lead: 'A visitor started a chat', body: 'From the button on your homepage' },
   { app: 'Bookings', time: 'now', lead: 'New appointment booked', body: 'Thursday, 11:00 AM, via your site' },
   { app: 'Search', time: 'now', lead: 'Your site is now showing', body: 'For searches near you' },
   { app: 'Analytics', time: 'now', lead: '14 people viewed your pricing', body: 'In the last 24 hours' },
+  { app: 'Website form', time: 'now', lead: 'New enquiry received', body: '"Can you call me back today?"' },
+  { app: 'Maps', time: 'now', lead: 'Your listing was viewed', body: '6 times in the last hour' },
+  { app: 'WhatsApp', time: 'now', lead: 'A visitor started a chat', body: '"What are your prices?"' },
+  { app: 'Bookings', time: 'now', lead: 'New appointment booked', body: 'Tomorrow, 3:30 PM, via your site' },
+  { app: 'Analytics', time: 'now', lead: 'Your site loaded in 1.2s', body: 'On a mobile connection' },
+  { app: 'Website form', time: 'now', lead: 'New enquiry received', body: '"Do you deliver outside the city?"' },
+  { app: 'Search', time: 'now', lead: 'A visitor found you on Google', body: 'Searching your business name' },
 ];
 
 export type Package = {

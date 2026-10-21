@@ -4,6 +4,8 @@ export type Post = {
   readTime: string;
   title: string;
   dek: string;
+  cover: { tint: string; accent: string }; // no real post photography yet: an on-brand
+  // generated cover (the aperture mark, tinted) stands in rather than a stock photo.
   body: { h?: string; p?: string; ul?: string[] }[];
 };
 
@@ -11,6 +13,7 @@ export const posts: Post[] = [
   {
     slug: 'why-your-website-needs-exactly-one-job',
     tag: 'Craft',
+    cover: { tint: '#FDE9E1', accent: '#B33818' },
     readTime: '4 min read',
     title: 'Why your website needs exactly one job',
     dek: 'Most sites try to do everything and end up doing nothing well. Here is how to find the one job yours should do.',
@@ -34,6 +37,7 @@ export const posts: Post[] = [
   {
     slug: 'the-real-cost-of-template-websites',
     tag: 'Strategy',
+    cover: { tint: '#EDE7FB', accent: '#5A35C9' },
     readTime: '5 min read',
     title: 'The real cost of template websites',
     dek: 'A template looks cheap on the invoice. The cost shows up later, in positioning, in trust, and in how many times you end up paying to redo it.',
@@ -58,6 +62,7 @@ export const posts: Post[] = [
   {
     slug: 'what-premium-actually-means-in-web-design',
     tag: 'Design',
+    cover: { tint: '#F3F6E3', accent: '#6F7A1E' },
     readTime: '5 min read',
     title: 'What premium actually means in web design',
     dek: 'Clients ask for a site that looks premium more often than anything else. It is rarely about budget. It is a short list of specific, learnable decisions.',

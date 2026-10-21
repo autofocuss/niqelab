@@ -21,6 +21,31 @@ import { site } from '../data/site';
   </section>
 
   <section class="wrap pad--tight">
+    <div class="section-head" data-reveal="up">
+      <h2>Or tell us <em>right here.</em></h2>
+      <p>Fill this in and it opens a pre-written email in your mail app, ready to send.</p>
+    </div>
+    <form id="contact-form" class="contact-form" data-reveal="up" data-delay="0.08">
+      <div class="contact-form__row">
+        <label for="cf-name">Your name</label>
+        <input id="cf-name" name="name" type="text" required autocomplete="name" />
+      </div>
+      <div class="contact-form__row">
+        <label for="cf-email">Your email</label>
+        <input id="cf-email" name="email" type="email" required autocomplete="email" />
+      </div>
+      <div class="contact-form__row">
+        <label for="cf-message">What does the site need to do?</label>
+        <textarea id="cf-message" name="message" rows="4" required placeholder="A few pages, a booking form, a redesign of what we have..."></textarea>
+      </div>
+      <button type="submit" class="btn btn--solid" data-fill>
+        <span class="btn__fill" aria-hidden="true"></span>Send &rarr;
+      </button>
+      <p class="contact-form__note mono">Opens your email app with this filled in. Nothing is sent from here directly.</p>
+    </form>
+  </section>
+
+  <section class="wrap pad--tight">
     <div class="pair">
       <div class="panel panel--light" data-reveal="up">
         <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Prefer a call?</p>
