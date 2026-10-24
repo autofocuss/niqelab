@@ -366,6 +366,34 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 .contact-form__status.is-success { color: #1F8A4C; }
 .contact-form__status.is-error { color: #C73A1F; }
 
+.contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.8rem; }
+@media (max-width: 760px) { .contact-options { grid-template-columns: 1fr; } }
+.contact-option {
+  display: flex; align-items: center; gap: 1rem; padding: 1.3rem 1.4rem; border-radius: var(--radius);
+  text-decoration: none; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.contact-option:hover { transform: translateY(-3px); }
+.contact-option__icon {
+  flex: none; width: 2.9rem; height: 2.9rem; border-radius: 50%; display: grid; place-items: center;
+}
+.contact-option__body { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 0; }
+.contact-option__body strong { font-size: 1.05rem; font-family: var(--f-display); }
+.contact-option__body .mono { font-size: 0.76rem; letter-spacing: 0.01em; }
+.contact-option__arrow { flex: none; font-size: 1.3rem; transition: transform 0.25s ease; }
+.contact-option:hover .contact-option__arrow { transform: translateX(4px); }
+
+.contact-option--calendar {
+  background: var(--c-bg-dim); border: 1.5px solid var(--c-line); color: var(--c-fg);
+}
+.contact-option--calendar:hover { border-color: var(--c-accent); box-shadow: 0 14px 30px -18px rgb(255 90 60 / 0.4); }
+.contact-option--calendar .contact-option__icon { background: var(--c-accent); color: #F7F4EC; }
+.contact-option--calendar .contact-option__body .mono { color: var(--c-muted); }
+
+.contact-option--whatsapp { background: #1F8A4C; color: #F7F4EC; }
+.contact-option--whatsapp:hover { box-shadow: 0 14px 30px -16px rgb(31 138 76 / 0.55); }
+.contact-option--whatsapp .contact-option__icon { background: rgb(247 244 236 / 0.18); color: #F7F4EC; }
+.contact-option--whatsapp .contact-option__body .mono { color: rgb(247 244 236 / 0.78); }
+
 /* ---- Contact ---- */
 .copybar {
   display: inline-flex; align-items: center; gap: 0.7rem; font-family: var(--f-mono); font-size: 0.95rem;

@@ -24,6 +24,7 @@ export const site = {
   email: 'sales@autofocuss.in',
   ccEmail: 'anirudha@autofocuss.com',
   whatsapp: '917499793646',
+  calendarUrl: 'https://calendar.app.google/LWNDtbmgfpHi6NwHA',
   web3formsKey: '39f53593-8646-4a35-87fa-79d7287c158f',
   // CC via Web3Forms' own ccemail field is a paid-plan feature; on the free
   // plan we get the same effect by submitting the same entry to a second
