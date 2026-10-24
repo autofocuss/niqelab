@@ -43,7 +43,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
         {visible.map((n, i) => {
           const icon = iconFor(n.app);
           return (
-            <div class="notice" data-reveal="up" data-intro data-delay={0.5 + i * 0.3}>
+            <div class="notice" data-reveal="up" data-intro data-delay={1.8 + i * 1.5}>
               <span class="notice__icon" aria-hidden="true" style={`background:${icon.bg}`} set:html={icon.svg} />
               <div class="notice__body">
                 <div class="notice__row">
