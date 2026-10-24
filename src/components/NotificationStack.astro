@@ -2,9 +2,10 @@
 // Illustrative, not a real dashboard: these are examples of what a good site
 // produces (a lead, a booking, a chat), the same honest-device technique
 // brandeddoctor.com uses with its own generic "Dr. Your Name" placeholder.
-// The 5 slots below are fixed DOM nodes; motion/notifications.ts cycles their
-// content from the full `notifications` pool so the feed keeps moving instead
-// of playing once and sitting still (see DESIGN.md addendum).
+// Styled as an actual iPhone (titanium frame, Dynamic Island, lock screen)
+// with ONE notification banner that slides in at a time -- like a real push
+// notification arriving -- instead of a static stack of cards. motion/
+// notifications.ts drives the loop from the full `notifications` pool.
 import { notifications } from '../data/site';
 const icons: Record<string, string> = {
   'Website form': 'W',
@@ -14,30 +15,45 @@ const icons: Record<string, string> = {
   Maps: 'M',
   Analytics: 'A',
 };
-const visible = notifications.slice(0, 5);
+const first = notifications[0];
 const poolJson = JSON.stringify(notifications);
+const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 ---
 <div class="phone" data-reveal="scale" data-intro>
   <div class="phone__frame">
-    <div class="phone__notch"></div>
-    <div class="phone__clock">
-      <span class="phone__time">9:41</span>
-      <span class="phone__day mono">Today</span>
-    </div>
-    <div class="phone__stack" data-notify data-notify-pool={poolJson} data-notify-start="5">
-      {visible.map((n, i) => (
-        <div class="notice" data-slot={i}>
-          <span class="notice__icon mono" aria-hidden="true" data-slot-icon>{icons[n.app] ?? n.app[0]}</span>
+    <span class="phone__btn phone__btn--action" aria-hidden="true"></span>
+    <span class="phone__btn phone__btn--vol-up" aria-hidden="true"></span>
+    <span class="phone__btn phone__btn--vol-down" aria-hidden="true"></span>
+    <span class="phone__btn phone__btn--power" aria-hidden="true"></span>
+    <div class="phone__screen">
+      <div class="phone__wallpaper" aria-hidden="true"></div>
+      <div class="phone__statusbar">
+        <span>9:41</span>
+        <span class="phone__statusbar-icons" aria-hidden="true">
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><rect x="0" y="7" width="2.6" height="4" rx="0.5"/><rect x="4.3" y="5" width="2.6" height="6" rx="0.5"/><rect x="8.6" y="3" width="2.6" height="8" rx="0.5"/><rect x="12.9" y="0.5" width="2.6" height="10.5" rx="0.5"/></svg>
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor"><path d="M7.5 9.6a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Zm-3-3.5a4.3 4.3 0 0 1 6 0l-1 1a2.9 2.9 0 0 0-4 0l-1-1Zm-2.3-2.3a7.4 7.4 0 0 1 10.6 0l-1 1a5.9 5.9 0 0 0-8.5 0l-1.1-1Z"/></svg>
+          <svg width="24" height="11" viewBox="0 0 24 11" fill="none"><rect x="0.75" y="0.75" width="20" height="9.5" rx="2.5" stroke="currentColor" stroke-width="1" opacity="0.5"/><rect x="2" y="2" width="16.5" height="7" rx="1.5" fill="currentColor"/><rect x="21.5" y="3.5" width="1.6" height="4" rx="0.8" fill="currentColor" opacity="0.5"/></svg>
+        </span>
+      </div>
+      <div class="phone__island" aria-hidden="true"></div>
+      <div class="phone__clock">
+        <span class="phone__time">9:41</span>
+        <span class="phone__day mono">{today}</span>
+      </div>
+      <div class="phone__notify" data-notify data-notify-pool={poolJson}>
+        <div class="notice" data-slot>
+          <span class="notice__icon mono" aria-hidden="true" data-slot-icon>{icons[first.app] ?? first.app[0]}</span>
           <div class="notice__body">
             <div class="notice__row">
-              <span class="notice__app mono" data-slot-app>{n.app.toUpperCase()}</span>
-              <span class="notice__time mono" data-slot-time>{n.time}</span>
+              <span class="notice__app mono" data-slot-app>{first.app.toUpperCase()}</span>
+              <span class="notice__time mono" data-slot-time>{first.time}</span>
             </div>
-            <p class="notice__lead" data-slot-lead>{n.lead}</p>
-            <p class="notice__text" data-slot-text>{n.body}</p>
+            <p class="notice__lead" data-slot-lead>{first.lead}</p>
+            <p class="notice__text" data-slot-text>{first.body}</p>
           </div>
         </div>
-      ))}
+      </div>
+      <div class="phone__home-indicator" aria-hidden="true"></div>
     </div>
   </div>
 </div>
