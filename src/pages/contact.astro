@@ -23,7 +23,7 @@ import { site } from '../data/site';
   <section class="wrap pad--tight">
     <div class="section-head" data-reveal="up">
       <h2>Or tell us <em>right here.</em></h2>
-      <p>Fill this in and it opens a pre-written email in your mail app, ready to send.</p>
+      <p>Fill this in and it's sent straight to us — no mail app required.</p>
     </div>
     <form id="contact-form" class="contact-form" data-reveal="up" data-delay="0.08">
       <div class="contact-form__row">
@@ -38,10 +38,10 @@ import { site } from '../data/site';
         <label for="cf-message">What does the site need to do?</label>
         <textarea id="cf-message" name="message" rows="4" required placeholder="A few pages, a booking form, a redesign of what we have..."></textarea>
       </div>
-      <button type="submit" class="btn btn--solid" data-fill>
-        <span class="btn__fill" aria-hidden="true"></span>Send &rarr;
+      <button type="submit" class="btn btn--solid" data-fill data-submit-btn>
+        <span class="btn__fill" aria-hidden="true"></span><span data-submit-label>Send &rarr;</span>
       </button>
-      <p class="contact-form__note mono">Opens your email app with this filled in. Nothing is sent from here directly.</p>
+      <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
     </form>
   </section>
 
@@ -53,7 +53,7 @@ import { site } from '../data/site';
       </div>
       <div class="panel panel--light" data-reveal="up" data-delay="0.1">
         <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Prefer WhatsApp?</p>
-        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">A WhatsApp line goes here once it's connected. For now, email is the fastest way to reach us.</p>
+        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);"><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" style="color: var(--c-fg); text-decoration: underline;">Message us directly</a> — usually a reply in minutes.</p>
       </div>
     </div>
   </section>

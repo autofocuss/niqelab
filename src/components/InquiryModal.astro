@@ -56,9 +56,10 @@ import { site } from '../data/site';
         <label for="im-message">A bit about your project</label>
         <textarea id="im-message" name="message" rows="3" placeholder="Pages, timeline, anything you already know"></textarea>
       </div>
-      <button type="submit" class="btn btn--solid" data-fill>
-        <span class="btn__fill" aria-hidden="true"></span>Email this in &rarr;
+      <button type="submit" class="btn btn--solid" data-fill data-submit-btn>
+        <span class="btn__fill" aria-hidden="true"></span><span data-submit-label>Send it in &rarr;</span>
       </button>
+      <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
     </form>
   </div>
 </div>

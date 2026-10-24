@@ -360,7 +360,11 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 }
 .contact-form__row input:focus-visible, .contact-form__row textarea:focus-visible { border-color: var(--c-fg); outline: none; }
 .contact-form button[type='submit'] { align-self: flex-start; margin-top: 0.3rem; }
+.contact-form button[type='submit']:disabled { opacity: 0.7; cursor: default; }
 .contact-form__note { color: var(--c-muted); font-size: 0.78rem; }
+.contact-form__status { font-size: 0.85rem; min-height: 1.2em; margin: -0.3rem 0 0; }
+.contact-form__status.is-success { color: #1F8A4C; }
+.contact-form__status.is-error { color: #C73A1F; }
 
 /* ---- Contact ---- */
 .copybar {

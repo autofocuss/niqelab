@@ -1,9 +1,9 @@
 // Package cards open the inquiry modal (InquiryModal.astro) instead of
 // jumping straight to email: the panel irises open from the exact point you
 // clicked, same move as the page transitions (DESIGN.md "signature moment").
-// Inside it you either WhatsApp us directly or fill a short form, which
-// composes a pre-filled email (sales@autofocuss.in, CC anirudha@autofocuss.com)
-// since there is no backend to send it from.
+// Inside it you either WhatsApp us directly or fill a short form. The form
+// submits straight to Web3Forms (no backend of our own needed), which emails
+// sales@autofocuss.in with anirudha@autofocuss.com on CC.
 import { gsap } from 'gsap';
 import { onPage, ease, prefersReducedMotion } from '../engine';
 import { site } from '../data/site';
@@ -15,8 +15,60 @@ function copyText(text: string): Promise<boolean> {
   return Promise.resolve(false);
 }
 
-function buildMailto(subject: string, body: string) {
-  return `mailto:${site.email}?cc=${encodeURIComponent(site.ccEmail)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+async function sendInquiry(form: HTMLFormElement, extra: Record<string, string> = {}) {
+  const data = new FormData(form);
+  const payload: Record<string, string> = {
+    access_key: site.web3formsKey,
+    cc: site.ccEmail,
+    subject: 'NiqeLab project inquiry',
+    from_name: 'NiqeLab website',
+    name: String(data.get('name') || ''),
+    email: String(data.get('email') || ''),
+    message: String(data.get('message') || ''),
+    ...extra,
+  };
+  const res = await fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  const json = await res.json().catch(() => ({ success: false }));
+  return Boolean(json.success);
+}
+
+function wireForm(form: HTMLFormElement, extra: () => Record<string, string>) {
+  const btn = form.querySelector<HTMLButtonElement>('[data-submit-btn]');
+  const label = form.querySelector<HTMLElement>('[data-submit-label]');
+  const status = form.querySelector<HTMLElement>('[data-form-status]');
+  const idleLabel = label?.textContent || 'Send';
+
+  const submit = async (e: SubmitEvent) => {
+    e.preventDefault();
+    if (btn) btn.disabled = true;
+    if (label) label.textContent = 'Sending…';
+    if (status) { status.textContent = ''; status.classList.remove('is-error', 'is-success'); }
+
+    try {
+      const ok = await sendInquiry(form, extra());
+      if (ok) {
+        if (label) label.textContent = 'Sent ✓';
+        if (status) { status.textContent = "Got it — we'll reply soon."; status.classList.add('is-success'); }
+        form.reset();
+        setTimeout(() => { if (label) label.textContent = idleLabel; if (btn) btn.disabled = false; }, 2400);
+      } else {
+        throw new Error('Submit failed');
+      }
+    } catch {
+      if (label) label.textContent = idleLabel;
+      if (btn) btn.disabled = false;
+      if (status) {
+        status.textContent = `Something went wrong — email us directly at ${site.email}.`;
+        status.classList.add('is-error');
+      }
+    }
+  };
+  form.addEventListener('submit', submit);
+  return () => form.removeEventListener('submit', submit);
 }
 
 export const startInquiry = () => onPage(() => {
@@ -47,17 +99,7 @@ export const startInquiry = () => onPage(() => {
   // Main contact page form (no package context)
   const contactForm = document.querySelector<HTMLFormElement>('#contact-form');
   if (contactForm) {
-    const submit = (e: SubmitEvent) => {
-      e.preventDefault();
-      const data = new FormData(contactForm);
-      const name = String(data.get('name') || '').trim();
-      const email = String(data.get('email') || '').trim();
-      const message = String(data.get('message') || '').trim();
-      const body = `Hi NiqeLab,\n\n${message}\n\n-- \n${name}\n${email}`;
-      window.location.href = buildMailto(`NiqeLab project inquiry from ${name || 'the contact form'}`, body);
-    };
-    contactForm.addEventListener('submit', submit);
-    off.push(() => contactForm.removeEventListener('submit', submit));
+    off.push(wireForm(contactForm, () => ({ subject: 'NiqeLab project inquiry' })));
   }
 
   // ---- Inquiry modal ----
@@ -129,18 +171,10 @@ export const startInquiry = () => onPage(() => {
   off.push(() => document.removeEventListener('keydown', onKey));
 
   if (modalForm) {
-    const submit = (e: SubmitEvent) => {
-      e.preventDefault();
-      const data = new FormData(modalForm);
-      const name = String(data.get('name') || '').trim();
-      const email = String(data.get('email') || '').trim();
-      const message = String(data.get('message') || '').trim();
-      const pkgLine = currentPackage.name ? `Package: ${currentPackage.name} (${currentPackage.details})\n\n` : '';
-      const body = `Hi NiqeLab,\n\n${pkgLine}${message}\n\n-- \n${name}\n${email}`;
-      window.location.href = buildMailto(`NiqeLab inquiry${currentPackage.name ? `, ${currentPackage.name}` : ''}`, body);
-    };
-    modalForm.addEventListener('submit', submit);
-    off.push(() => modalForm.removeEventListener('submit', submit));
+    off.push(wireForm(modalForm, () => ({
+      subject: `NiqeLab inquiry${currentPackage.name ? `, ${currentPackage.name}` : ''}`,
+      package: currentPackage.name ? `${currentPackage.name} (${currentPackage.details})` : '',
+    })));
   }
 
   return () => off.forEach((f) => f());

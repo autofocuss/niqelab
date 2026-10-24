@@ -24,6 +24,7 @@ export const site = {
   email: 'sales@autofocuss.in',
   ccEmail: 'anirudha@autofocuss.com',
   whatsapp: '917499793646',
+  web3formsKey: '39f53593-8646-4a35-87fa-79d7287c158f',
   location: 'Mumbai, India',
 };
 
