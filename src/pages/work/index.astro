@@ -7,31 +7,23 @@ import { projects } from '../../data/site';
     <p class="hero__eyebrow">Selected work</p>
     <h1 data-split="lines" data-intro class="h2" style="font-size: var(--t-xl);">Real sites, <em>not renders.</em></h1>
     <p class="lede" data-reveal="up" data-intro data-delay="0.08" style="font-size:1.05rem;">
-      Nine live projects. Click any row to visit the site, or open the case notes.
+      Nine live projects. Click through to visit the site, or read the case notes.
     </p>
   </section>
 
   <section class="wrap pad--tight">
-    <div class="index-list">
+    <div class="work-grid">
       {projects.map((p, i) => (
-        <div class="index-row-wrap" data-focus>
-          <div style="display:flex; align-items:center; gap:1.2rem; padding:1.3rem 0; border-bottom:1px solid var(--c-line);">
-            <span class="mono" style="color: var(--c-muted); font-size:0.75rem; min-width:1.6rem;">{String(i + 1).padStart(2, '0')}</span>
-            <a href={`/niqelab/work/${p.slug}/`} class="index-row__thumb" data-cursor="View">
-              <img src={p.image} alt={`${p.title} website`} width="800" height="600" loading="lazy" />
-            </a>
-            <a href={`/niqelab/work/${p.slug}/`} style="flex:1; min-width:0;" class="roll">
-              <span style="display:block;">
-                <span class="index-row__title" style="display:block;">{p.title}</span>
-                <span class="mono" style="font-size:0.75rem; color: var(--c-muted);">{p.kind} &middot; {p.domain}</span>
-              </span>
-              <span aria-hidden="true" style="display:block;">
-                <span class="index-row__title" style="display:block;">{p.title}</span>
-                <span class="mono" style="font-size:0.75rem; color: var(--c-muted);">{p.kind} &middot; {p.domain}</span>
-              </span>
-            </a>
-            <a href={p.url} target="_blank" rel="noopener" class="mono" style="font-size:0.75rem; color: var(--c-accent-deep); padding:0.5rem 0.3rem; display:inline-flex; align-items:center;" data-cursor="Visit">Visit &rarr;</a>
-          </div>
+        <div data-reveal="up" data-delay={(i % 3) * 0.08}>
+          <a class="tile" href={p.url} target="_blank" rel="noopener" style={`--tint:${p.tint}; --accent:${p.accent}`} data-cursor="Visit">
+            <div class="tile__chrome"><span class="tile__dot"></span><span class="tile__url">{p.domain}</span></div>
+            <div class="tile__shot"><div class="tile__shot-inner"><img src={p.image} alt={`${p.title} website, home page`} width="800" height="600" loading="lazy" /></div></div>
+            <div class="tile__meta">
+              <div><h3>{p.title}</h3><p class="tile__kind">{p.kind}</p></div>
+              <span class="tile__arrow">Visit &rarr;</span>
+            </div>
+          </a>
+          <a href={`/niqelab/work/${p.slug}/`} class="tile__case-link mono">Read the case notes &rarr;</a>
         </div>
       ))}
     </div>
