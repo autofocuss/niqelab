@@ -5,6 +5,7 @@ import Loader from '../components/Loader.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import InquiryModal from '../components/InquiryModal.astro';
+import BookingModal from '../components/BookingModal.astro';
 import '../styles/tokens.css';
 import '../styles/engine.css';
 import '../styles/base.css';
@@ -68,6 +69,7 @@ const jsonLd = {
     </main>
     <Footer />
     <InquiryModal />
+    <BookingModal />
     <script>
       import { start } from '../engine/astro';
       import { setupMotion } from '../motion/setup';

@@ -5,6 +5,7 @@ import { startFocus } from './focus';
 import { startIdle } from './idle';
 import { startButtonFill } from './buttonFill';
 import { startInquiry } from './inquiry';
+import { startBooking } from './booking';
 import { startNotifyLoop } from './notifications';
 
 // The click point the iris transition opens/closes from (DESIGN.md "signature moment").
@@ -45,5 +46,6 @@ export function setupMotion() {
   startFocus();
   startButtonFill();
   startInquiry();
+  startBooking();
   startNotifyLoop();
 }

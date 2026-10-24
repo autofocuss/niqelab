@@ -25,6 +25,7 @@ export const site = {
   ccEmail: 'anirudha@autofocuss.com',
   whatsapp: '917499793646',
   calendarUrl: 'https://calendar.app.google/LWNDtbmgfpHi6NwHA',
+  calendarEmbedUrl: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ13kpRzclvs14EJF1ElD8l46ACXFWPxn3rl5vtaXqQYiMvAxFCaBCx2Bh8c_oPWMg0Hm-4iF0Dx?gv=true',
   web3formsKey: '39f53593-8646-4a35-87fa-79d7287c158f',
   // CC via Web3Forms' own ccemail field is a paid-plan feature; on the free
   // plan we get the same effect by submitting the same entry to a second
