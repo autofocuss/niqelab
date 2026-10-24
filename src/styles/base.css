@@ -303,6 +303,52 @@ em { font-style: italic; font-family: var(--f-accent); color: var(--c-accent-dee
 /* ---- Fluid headings shared ---- */
 .h2 { font-family: var(--f-display); font-size: var(--t-xl); line-height: 1.02; letter-spacing: -0.03em; font-weight: 700; }
 
+/* ---- Inquiry modal: opens from the exact click point with the same
+   aperture-iris the page transitions use (DESIGN.md "signature moment"). ---- */
+.inquiry-modal { position: fixed; inset: 0; z-index: 95; visibility: hidden; }
+.inquiry-modal.is-open { visibility: visible; }
+.inquiry-modal__backdrop { position: absolute; inset: 0; background: rgb(14 14 19 / 0.55); backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease; }
+.inquiry-modal.is-open .inquiry-modal__backdrop { opacity: 1; }
+.inquiry-modal__panel {
+  position: relative; max-width: 30rem; margin: clamp(2rem, 8vh, 6rem) auto 2rem; max-height: calc(100svh - 4rem);
+  overflow-y: auto; background: var(--c-bg); border-radius: 20px; padding: clamp(1.6rem, 3vw, 2.4rem);
+  box-shadow: 0 30px 60px -16px rgb(14 14 19 / 0.4);
+  clip-path: circle(0% at 50% 50%);
+}
+.inquiry-modal__close {
+  position: absolute; top: 1rem; right: 1rem; width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  display: grid; place-items: center; transition: background-color 0.25s ease, transform 0.25s ease;
+}
+@media (hover: hover) { .inquiry-modal__close:hover { background: var(--c-bg-dim); transform: scale(1.08); } }
+.inquiry-modal__eyebrow { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-muted); }
+.inquiry-modal__title { font-family: var(--f-display); font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.1rem); font-weight: 700; margin-top: 0.3rem; max-width: 85%; }
+.inquiry-modal__dek { color: var(--c-muted); font-size: 0.95rem; margin-top: 0.6rem; }
+
+.inquiry-modal__whatsapp {
+  display: flex; align-items: center; gap: 0.9rem; margin-top: 1.5rem; padding: 1rem 1.1rem;
+  background: #1F8A4C; color: #F7F4EC; border-radius: 16px; text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+@media (hover: hover) { .inquiry-modal__whatsapp:hover { transform: translateY(-2px) rotate(-0.6deg); box-shadow: 0 12px 24px -8px rgb(31 138 76 / 0.5); } }
+.inquiry-modal__whatsapp:focus-visible { outline: 2px solid var(--c-bg); outline-offset: 2px; }
+.inquiry-modal__whatsapp-icon {
+  flex-shrink: 0; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: rgb(247 244 236 / 0.16);
+  display: grid; place-items: center; animation: whatsapp-pulse 2.4s ease-in-out infinite;
+}
+@keyframes whatsapp-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(247 244 236 / 0.35); } 50% { box-shadow: 0 0 0 7px rgb(247 244 236 / 0); } }
+.inquiry-modal__whatsapp strong { display: block; font-family: var(--f-display); font-size: 1.05rem; font-weight: 700; }
+.inquiry-modal__whatsapp .mono { display: block; font-size: 0.72rem; opacity: 0.85; margin-top: 0.15rem; }
+.inquiry-modal__whatsapp-arrow { margin-left: auto; font-family: var(--f-mono); font-weight: 700; transition: transform 0.25s ease; }
+.inquiry-modal__whatsapp:hover .inquiry-modal__whatsapp-arrow { transform: translateX(3px); }
+
+.inquiry-modal__divider { display: flex; align-items: center; gap: 0.8rem; margin: 1.7rem 0 1.2rem; color: var(--c-muted); font-size: 0.78rem; }
+.inquiry-modal__divider::before, .inquiry-modal__divider::after { content: ''; flex: 1; border-top: 1.5px dashed var(--c-line); }
+
+.contact-form--modal { margin-top: 0; gap: 0.9rem; }
+.contact-form--modal button[type='submit'] { align-self: stretch; justify-content: center; }
+
+@media (prefers-reduced-motion: reduce) { .inquiry-modal__whatsapp-icon { animation: none; } }
+
 /* ---- Contact form ---- */
 .contact-form { max-width: 34rem; margin-top: 2.2rem; display: flex; flex-direction: column; gap: 1.1rem; }
 .contact-form__row { display: flex; flex-direction: column; gap: 0.4rem; }

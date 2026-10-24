@@ -16,7 +16,7 @@ import { site } from '../data/site';
         <span id="contact-email">{site.email}</span>
         <button class="copy-btn" type="button" data-copy-target="contact-email">Copy</button>
       </div>
-      <a href={`mailto:${site.email}?subject=${encodeURIComponent('NiqeLab project inquiry')}`} class="btn" style="border-color: var(--c-bg); color: var(--c-bg);">Email us &rarr;</a>
+      <a href={`mailto:${site.email}?cc=${encodeURIComponent(site.ccEmail)}&subject=${encodeURIComponent('NiqeLab project inquiry')}`} class="btn" style="border-color: var(--c-bg); color: var(--c-bg);">Email us &rarr;</a>
     </div>
   </section>
 

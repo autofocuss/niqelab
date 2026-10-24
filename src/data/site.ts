@@ -22,6 +22,8 @@ export const site = {
   url: 'https://autofocuss.github.io/niqelab/',
   description: 'NiqeLab designs and builds websites that turn visitors into enquiries, bookings and calls.',
   email: 'sales@autofocuss.in',
+  ccEmail: 'anirudha@autofocuss.com',
+  whatsapp: '917499793646',
   location: 'Mumbai, India',
 };
 
