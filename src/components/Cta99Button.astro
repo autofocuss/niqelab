@@ -1,9 +1,10 @@
 ---
 // Reused every 2nd/3rd section on /99-website/ and on the homepage. This
-// product skips the inquiry modal entirely -- straight to Stripe, or to
-// WhatsApp if Stripe isn't wired up yet (see site.ts for the three-way
-// fallback order). No code changes needed when Stripe activates: just fill
-// in stripe99Url or stripe99PriceId in site.ts.
+// product is strictly pay-first: no inquiry modal, no WhatsApp pre-payment
+// contact path. People pay, then we reach out -- never the other way
+// around. Until Stripe is wired up (stripe99Url or stripe99PriceId in
+// site.ts), the button is disabled rather than offering any contact
+// fallback. No code changes needed when Stripe activates.
 import { site } from '../data/site';
 interface Props {
   ghost?: boolean;
@@ -14,8 +15,6 @@ const hasPaymentLink = Boolean(site.stripe99Url);
 const hasPriceId = Boolean(site.stripe99PriceId) && Boolean(site.stripePublishableKey);
 const successUrl = new URL('99-website/?paid=1', site.url).href;
 const cancelUrl = new URL('99-website/?canceled=1', site.url).href;
-const waText = "Hi! I'd like to get the $99 starter website.";
-const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(waText)}`;
 ---
 {hasPaymentLink ? (
   <a href={site.stripe99Url} target="_blank" rel="noopener" class={cls} data-fill data-magnetic="0.2">
@@ -36,7 +35,7 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(waText)
     <span class="btn__fill" aria-hidden="true" /><span data-stripe-label>Buy now — $99 &rarr;</span>
   </button>
 ) : (
-  <a href={waHref} target="_blank" rel="noopener" class={cls} data-fill data-magnetic="0.2">
-    <span class="btn__fill" aria-hidden="true" />Reserve on WhatsApp — $99 &rarr;
-  </a>
+  <button type="button" class={cls} disabled style="opacity:0.55; cursor:not-allowed;">
+    Checkout opening soon
+  </button>
 )}

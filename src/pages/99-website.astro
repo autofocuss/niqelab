@@ -1,9 +1,11 @@
 ---
 // Entry-point hook offer for the US market: a tightly-scoped, cheap, fast
-// starter site (one page, hosting included, domain not included). Buy
-// buttons (Cta99Button) appear every 2nd/3rd section and go straight to
-// Stripe once configured -- never the inquiry modal/popup, by design
-// (falls back to WhatsApp until a Stripe link or Price ID is set).
+// starter site (one page, hosting included, domain not included). Strictly
+// pay-first: Buy buttons (Cta99Button) go straight to Stripe, with no
+// inquiry modal and no WhatsApp/contact fallback -- people pay, then WE
+// reach out, never the other way around. After a successful Stripe payment
+// (redirected back here with ?paid=1), the hero swaps for a confirmation
+// that says exactly that: payment received, we'll email you.
 import Base from '../layouts/Base.astro';
 import Cta99Button from '../components/Cta99Button.astro';
 ---
@@ -11,7 +13,7 @@ import Cta99Button from '../components/Cta99Button.astro';
   title="$99 Starter Website"
   description="A real, working website for $99 -- one polished page, built from a proven layout, hosted and live in days. The fastest way to get started with NiqeLab."
 >
-  <section class="cta wrap" style="min-height:70svh; display:flex; flex-direction:column; justify-content:center; padding-block: clamp(3rem,6vw,5rem);">
+  <section class="cta wrap" id="hero-sell" style="min-height:70svh; display:flex; flex-direction:column; justify-content:center; padding-block: clamp(3rem,6vw,5rem);">
     <p class="mono" style="font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color: rgb(247 244 236 / 0.6);">Starter offer</p>
     <h1 data-split="lines" data-intro style="font-size: clamp(2.4rem, 1.6rem + 3.6vw, 4.2rem); color: var(--c-bg); margin-top:0.8rem; max-width:22ch;">
       A real website. <em style="color: var(--c-pop);">$99.</em> Live in days.
@@ -23,6 +25,17 @@ import Cta99Button from '../components/Cta99Button.astro';
     <div style="margin-top:2.2rem;" data-reveal="up" data-intro data-delay="0.16">
       <Cta99Button />
     </div>
+  </section>
+
+  <section class="cta wrap" id="hero-paid" style="display:none; min-height:70svh; flex-direction:column; justify-content:center; padding-block: clamp(3rem,6vw,5rem);">
+    <p class="mono" style="font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color: var(--c-pop);">Payment received</p>
+    <h1 style="font-size: clamp(2.2rem, 1.5rem + 3vw, 3.6rem); color: var(--c-bg); margin-top:0.8rem; max-width:20ch;">
+      You're in. <em style="color: var(--c-pop);">We'll take it from here.</em>
+    </h1>
+    <p style="color: rgb(247 244 236 / 0.75); margin-top:1.2rem; max-width:32rem; font-size:1.1rem; line-height:1.6;">
+      No forms to fill out right now — we'll email the address you paid with, usually within one business day,
+      to kick things off and get a feel for your business.
+    </p>
   </section>
 
   <section class="wrap pad--tight">
@@ -72,8 +85,8 @@ import Cta99Button from '../components/Cta99Button.astro';
       <div class="step" data-reveal="up">
         <span class="step__num" aria-hidden="true">1</span>
         <div class="step__body">
-          <h3>Buy, then tell us about your business</h3>
-          <p>A 2-minute form after checkout: what you do, who it's for, and anything you already have (logo, photos, old site).</p>
+          <h3>Buy, and we take it from there</h3>
+          <p>No form to fill out. We email the address on your payment within one business day to learn about your business and grab anything you already have — logo, photos, old site.</p>
         </div>
       </div>
       <div class="step" data-reveal="up" data-delay="0.08">
@@ -135,4 +148,12 @@ import Cta99Button from '../components/Cta99Button.astro';
       <Cta99Button />
     </div>
   </section>
+
+  <script>
+    if (new URLSearchParams(location.search).get('paid') === '1') {
+      document.getElementById('hero-sell')?.setAttribute('style', 'display:none');
+      const paid = document.getElementById('hero-paid');
+      paid?.setAttribute('style', 'display:flex; min-height:70svh; flex-direction:column; justify-content:center; padding-block: clamp(3rem,6vw,5rem);');
+    }
+  </script>
 </Base>
