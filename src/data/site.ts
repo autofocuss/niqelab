@@ -32,11 +32,20 @@ export const site = {
   // access key tied to anirudha@autofocuss.com's own inbox.
   web3formsKeyCc: 'ddaa4db6-0627-4cde-b152-88b926e6ec97',
   location: 'Mumbai, India',
-  // $99 starter-site entry offer (US-market hook). Leave blank until the
-  // Stripe account is live -- the Buy buttons on /99-website/ fall back to
-  // the inquiry modal (manual order capture) until a real Payment Link URL
-  // is pasted in here, then they switch to direct checkout automatically.
+  // $99 starter-site entry offer (US-market hook). The Buy buttons
+  // (Cta99Button.astro) check these in order and use whichever is set:
+  // 1. stripe99Url -- a Stripe Payment Link (checkout.stripe.com), created
+  //    in Dashboard > Payment links. Simplest: no code, no JS library, works
+  //    on a static site with nothing but a URL.
+  // 2. stripe99PriceId -- a one-time Price ID (price_xxx) from Dashboard >
+  //    Product catalog, paired with stripePublishableKey below. Used via
+  //    Stripe.js redirectToCheckout (motion/checkout99.ts) when you'd rather
+  //    not use a Payment Link.
+  // Until one of those two is set, the button opens WhatsApp directly
+  // (never the inquiry modal/popup -- this product skips that by design).
   stripe99Url: '',
+  stripe99PriceId: '',
+  stripePublishableKey: 'pk_live_51P8Hs3SDfqeQKitLzmHf9A8FIM5RtFKjpdPVisOp9alix2crVBBmXsZB2Zcs8qkLPidyIeKOgIVdNyVdvpgbY4CC00Nz5U9sb7',
 };
 
 export const projects: Project[] = [

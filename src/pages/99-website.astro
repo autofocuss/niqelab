@@ -1,14 +1,15 @@
 ---
 // Entry-point hook offer for the US market: a tightly-scoped, cheap, fast
-// starter site. Buy buttons (Cta99Button) appear every 2nd/3rd section and
-// fall back to the inquiry modal for manual order capture until
-// site.stripe99Url is set, once Stripe activates.
+// starter site (one page, hosting included, domain not included). Buy
+// buttons (Cta99Button) appear every 2nd/3rd section and go straight to
+// Stripe once configured -- never the inquiry modal/popup, by design
+// (falls back to WhatsApp until a Stripe link or Price ID is set).
 import Base from '../layouts/Base.astro';
 import Cta99Button from '../components/Cta99Button.astro';
 ---
 <Base
   title="$99 Starter Website"
-  description="A real, working website for $99 -- one polished page, built from a proven layout, live in days. The fastest way to get started with NiqeLab."
+  description="A real, working website for $99 -- one polished page, built from a proven layout, hosted and live in days. The fastest way to get started with NiqeLab."
 >
   <section class="cta wrap" style="min-height:70svh; display:flex; flex-direction:column; justify-content:center; padding-block: clamp(3rem,6vw,5rem);">
     <p class="mono" style="font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color: rgb(247 244 236 / 0.6);">Starter offer</p>
@@ -41,12 +42,14 @@ import Cta99Button from '../components/Cta99Button.astro';
         <ul class="check-list">
           <li>Live in 3–5 business days</li>
           <li>One round of edits after you see the first draft</li>
+          <li>Hosting included, on a shared platform</li>
           <li>Yours to keep — no lock-in, no monthly platform fee</li>
         </ul>
       </div>
       <div class="panel panel--light" data-reveal="up" data-delay="0.16">
         <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Not included</p>
         <ul class="x-list">
+          <li>A domain name (you buy and own that yourself)</li>
           <li>Extra pages or navigation</li>
           <li>Custom design exploration</li>
           <li>Ongoing support after handover</li>
@@ -90,8 +93,8 @@ import Cta99Button from '../components/Cta99Button.astro';
       <div class="step" data-reveal="up" data-delay="0.24">
         <span class="step__num" aria-hidden="true">4</span>
         <div class="step__body">
-          <h3>Live, on your domain</h3>
-          <p>Point your own domain at it, or we help you get one. Either way, it's live within days of your first reply.</p>
+          <h3>Live, hosted by us</h3>
+          <p>We host it on a shared platform — fast enough for a one-page site. Point your own domain at it (you'll need to buy that separately), or launch on a free subdomain to start.</p>
         </div>
       </div>
     </div>
@@ -114,12 +117,12 @@ import Cta99Button from '../components/Cta99Button.astro';
         <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">You see it before anything's final and get one round of edits included. Big design changes are outside the $99 scope — that's what the full packages are for.</p>
       </div>
       <div data-reveal="up" data-delay="0.18">
-        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Do I need a domain already?</p>
-        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">No. Bring one if you have it, or tell us and we'll help you get one — that's a separate, small cost (domains aren't free to register).</p>
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Do you host it? Do I need a domain?</p>
+        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">Hosting's on us, on a shared platform — decent, dependable load speed for a one-page site, though we won't promise a specific speed score. A domain is the one thing you buy yourself, from any registrar; we'll walk you through pointing it at the site.</p>
       </div>
       <div data-reveal="up" data-delay="0.26">
         <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Is this a subscription?</p>
-        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">No. $99 once. The site is yours — no monthly fee to keep it live.</p>
+        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">No. $99 once for the build. The site is yours, hosted by us — no monthly platform fee.</p>
       </div>
     </div>
   </section>

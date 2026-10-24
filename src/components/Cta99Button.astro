@@ -1,28 +1,42 @@
 ---
-// Reused every 2nd/3rd section on /99-website/. Switches itself from a
-// manual-inquiry fallback to a direct Stripe Payment Link the moment
-// site.stripe99Url is filled in -- no page edits needed when Stripe activates.
+// Reused every 2nd/3rd section on /99-website/ and on the homepage. This
+// product skips the inquiry modal entirely -- straight to Stripe, or to
+// WhatsApp if Stripe isn't wired up yet (see site.ts for the three-way
+// fallback order). No code changes needed when Stripe activates: just fill
+// in stripe99Url or stripe99PriceId in site.ts.
 import { site } from '../data/site';
 interface Props {
   ghost?: boolean;
 }
 const { ghost = false } = Astro.props;
-const hasStripe = Boolean(site.stripe99Url);
 const cls = `btn ${ghost ? 'btn--ghost' : 'btn--solid'}`;
+const hasPaymentLink = Boolean(site.stripe99Url);
+const hasPriceId = Boolean(site.stripe99PriceId) && Boolean(site.stripePublishableKey);
+const successUrl = new URL('99-website/?paid=1', site.url).href;
+const cancelUrl = new URL('99-website/?canceled=1', site.url).href;
+const waText = "Hi! I'd like to get the $99 starter website.";
+const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(waText)}`;
 ---
-{hasStripe ? (
+{hasPaymentLink ? (
   <a href={site.stripe99Url} target="_blank" rel="noopener" class={cls} data-fill data-magnetic="0.2">
     <span class="btn__fill" aria-hidden="true" />Buy now — $99 &rarr;
   </a>
-) : (
+) : hasPriceId ? (
   <button
     type="button"
     class={cls}
     data-fill
     data-magnetic="0.2"
-    data-package="$99 Starter Site"
-    data-details="One-page starter website, live in days"
+    data-stripe-checkout
+    data-price-id={site.stripe99PriceId}
+    data-pubkey={site.stripePublishableKey}
+    data-success-url={successUrl}
+    data-cancel-url={cancelUrl}
   >
-    <span class="btn__fill" aria-hidden="true" />Get started — $99 &rarr;
+    <span class="btn__fill" aria-hidden="true" /><span data-stripe-label>Buy now — $99 &rarr;</span>
   </button>
+) : (
+  <a href={waHref} target="_blank" rel="noopener" class={cls} data-fill data-magnetic="0.2">
+    <span class="btn__fill" aria-hidden="true" />Reserve on WhatsApp — $99 &rarr;
+  </a>
 )}

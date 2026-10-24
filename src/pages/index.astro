@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import NotificationStack from '../components/NotificationStack.astro';
+import Cta99Button from '../components/Cta99Button.astro';
 import { projects, packages } from '../data/site';
 import { posts } from '../data/blog';
 const featured = projects.slice(0, 3);
@@ -21,6 +22,9 @@ const featured = projects.slice(0, 3);
           </a>
           <a href="/niqelab/work/" class="btn btn--ghost">See our work</a>
         </div>
+        <p data-reveal="up" data-intro data-delay="0.24" style="margin-top:1.4rem; font-size:0.92rem; color: var(--c-muted);">
+          Just want to try us first? <a href="/niqelab/99-website/" class="link">Get a site for $99 &rarr;</a>
+        </p>
       </div>
       <NotificationStack />
     </div>
@@ -114,6 +118,24 @@ const featured = projects.slice(0, 3);
       ))}
     </div>
   </div>
+
+  <section class="wrap pad--tight">
+    <div class="panel panel--dark" data-reveal="up" style="display:flex; flex-wrap:wrap; gap:1.6rem; align-items:center; justify-content:space-between;">
+      <div style="max-width:32rem;">
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-pop); margin-bottom:0.6rem;">New: starter offer</p>
+        <h3 style="font-family: var(--f-display); font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.9rem); font-weight:700;">
+          Not ready for the full build? Start at $99.
+        </h3>
+        <p style="color: rgb(247 244 236 / 0.75); margin-top:0.6rem; font-size:0.98rem; line-height:1.6;">
+          One page, built from a matched layout, hosted and live in days. The fastest way to see what NiqeLab does with your business.
+        </p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.7rem; align-items:flex-start;">
+        <Cta99Button />
+        <a href="/niqelab/99-website/" class="link" style="font-size:0.9rem; color: rgb(247 244 236 / 0.75);">See what's included &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <section class="wrap pad">
     <div class="section-head">
