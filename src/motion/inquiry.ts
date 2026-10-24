@@ -2,8 +2,10 @@
 // jumping straight to email: the panel irises open from the exact point you
 // clicked, same move as the page transitions (DESIGN.md "signature moment").
 // Inside it you either WhatsApp us directly or fill a short form. The form
-// submits straight to Web3Forms (no backend of our own needed), which emails
-// sales@autofocuss.in with anirudha@autofocuss.com on CC.
+// submits straight to Web3Forms (no backend of our own needed). CC via
+// Web3Forms' own ccemail field is a paid-plan feature, so on the free plan
+// we submit the same entry to two access keys -- sales@autofocuss.in's and
+// anirudha@autofocuss.com's -- so both inboxes get it.
 import { gsap } from 'gsap';
 import { onPage, ease, prefersReducedMotion } from '../engine';
 import { site } from '../data/site';
@@ -15,11 +17,19 @@ function copyText(text: string): Promise<boolean> {
   return Promise.resolve(false);
 }
 
+async function submitToKey(accessKey: string, payload: Record<string, string>) {
+  const res = await fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ ...payload, access_key: accessKey }),
+  });
+  const json = await res.json().catch(() => ({ success: false }));
+  return Boolean(json.success);
+}
+
 async function sendInquiry(form: HTMLFormElement, extra: Record<string, string> = {}) {
   const data = new FormData(form);
   const payload: Record<string, string> = {
-    access_key: site.web3formsKey,
-    cc: site.ccEmail,
     subject: 'NiqeLab project inquiry',
     from_name: 'NiqeLab website',
     name: String(data.get('name') || ''),
@@ -27,13 +37,11 @@ async function sendInquiry(form: HTMLFormElement, extra: Record<string, string> 
     message: String(data.get('message') || ''),
     ...extra,
   };
-  const res = await fetch('https://api.web3forms.com/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  const json = await res.json().catch(() => ({ success: false }));
-  return Boolean(json.success);
+  const [primary] = await Promise.allSettled([
+    submitToKey(site.web3formsKey, payload),
+    submitToKey(site.web3formsKeyCc, payload),
+  ]);
+  return primary.status === 'fulfilled' && primary.value;
 }
 
 function wireForm(form: HTMLFormElement, extra: () => Record<string, string>) {

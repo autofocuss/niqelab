@@ -25,6 +25,10 @@ export const site = {
   ccEmail: 'anirudha@autofocuss.com',
   whatsapp: '917499793646',
   web3formsKey: '39f53593-8646-4a35-87fa-79d7287c158f',
+  // CC via Web3Forms' own ccemail field is a paid-plan feature; on the free
+  // plan we get the same effect by submitting the same entry to a second
+  // access key tied to anirudha@autofocuss.com's own inbox.
+  web3formsKeyCc: 'ddaa4db6-0627-4cde-b152-88b926e6ec97',
   location: 'Mumbai, India',
 };
 
