@@ -1,0 +1,135 @@
+---
+// Entry-point hook offer for the US market: a tightly-scoped, cheap, fast
+// starter site. Buy buttons (Cta99Button) appear every 2nd/3rd section and
+// fall back to the inquiry modal for manual order capture until
+// site.stripe99Url is set, once Stripe activates.
+import Base from '../layouts/Base.astro';
+import Cta99Button from '../components/Cta99Button.astro';
+---
+<Base
+  title="$99 Starter Website"
+  description="A real, working website for $99 -- one polished page, built from a proven layout, live in days. The fastest way to get started with NiqeLab."
+>
+  <section class="cta wrap" style="min-height:70svh; display:flex; flex-direction:column; justify-content:center; padding-block: clamp(3rem,6vw,5rem);">
+    <p class="mono" style="font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color: rgb(247 244 236 / 0.6);">Starter offer</p>
+    <h1 data-split="lines" data-intro style="font-size: clamp(2.4rem, 1.6rem + 3.6vw, 4.2rem); color: var(--c-bg); margin-top:0.8rem; max-width:22ch;">
+      A real website. <em style="color: var(--c-pop);">$99.</em> Live in days.
+    </h1>
+    <p data-reveal="up" data-intro data-delay="0.08" style="color: rgb(247 244 236 / 0.75); margin-top:1.2rem; max-width:34rem; font-size:1.15rem; line-height:1.6;">
+      One polished page, built from a layout matched to your business. No calls, no back-and-forth design
+      rounds, no four-figure quote. The fastest way to see what NiqeLab can do with your business.
+    </p>
+    <div style="margin-top:2.2rem;" data-reveal="up" data-intro data-delay="0.16">
+      <Cta99Button />
+    </div>
+  </section>
+
+  <section class="wrap pad--tight">
+    <div class="section-head" data-reveal="up">
+      <h2>What's in the <em>$99.</em></h2>
+      <p>Tightly scoped on purpose, so it stays fast and stays $99.</p>
+    </div>
+    <div class="pair pair--3" style="margin-top:2.2rem;">
+      <div class="panel panel--light" data-reveal="up">
+        <ul class="check-list">
+          <li>One page, built from a layout matched to your business</li>
+          <li>Mobile-first, fast-loading, no bloat</li>
+          <li>A working contact form that emails you directly</li>
+        </ul>
+      </div>
+      <div class="panel panel--light" data-reveal="up" data-delay="0.08">
+        <ul class="check-list">
+          <li>Live in 3–5 business days</li>
+          <li>One round of edits after you see the first draft</li>
+          <li>Yours to keep — no lock-in, no monthly platform fee</li>
+        </ul>
+      </div>
+      <div class="panel panel--light" data-reveal="up" data-delay="0.16">
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Not included</p>
+        <ul class="x-list">
+          <li>Extra pages or navigation</li>
+          <li>Custom design exploration</li>
+          <li>Ongoing support after handover</li>
+        </ul>
+        <p style="font-size:0.85rem; color: var(--c-muted); margin-top:1rem; line-height:1.5;">
+          Need more of this? <a href="/niqelab/packages/" class="link">See the Grow package &rarr;</a>
+        </p>
+      </div>
+    </div>
+    <div style="margin-top:2.4rem;" data-reveal="up">
+      <Cta99Button />
+    </div>
+  </section>
+
+  <section class="wrap pad--tight" style="border-top:1px solid var(--c-line);">
+    <div class="section-head" data-reveal="up">
+      <h2>How it <em>works.</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal="up">
+        <span class="step__num" aria-hidden="true">1</span>
+        <div class="step__body">
+          <h3>Buy, then tell us about your business</h3>
+          <p>A 2-minute form after checkout: what you do, who it's for, and anything you already have (logo, photos, old site).</p>
+        </div>
+      </div>
+      <div class="step" data-reveal="up" data-delay="0.08">
+        <span class="step__num" aria-hidden="true">2</span>
+        <div class="step__body">
+          <h3>We match you to a layout within 24 hours</h3>
+          <p>A layout from our library, adapted to your business, your copy and your colors — not a generic template with your logo pasted on.</p>
+        </div>
+      </div>
+      <div class="step" data-reveal="up" data-delay="0.16">
+        <span class="step__num" aria-hidden="true">3</span>
+        <div class="step__body">
+          <h3>You see it, we build it</h3>
+          <p>One round of small edits — text, images, colors — then it's built out and ready.</p>
+        </div>
+      </div>
+      <div class="step" data-reveal="up" data-delay="0.24">
+        <span class="step__num" aria-hidden="true">4</span>
+        <div class="step__body">
+          <h3>Live, on your domain</h3>
+          <p>Point your own domain at it, or we help you get one. Either way, it's live within days of your first reply.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:2.4rem;" data-reveal="up">
+      <Cta99Button />
+    </div>
+  </section>
+
+  <section class="wrap pad--tight" style="border-top:1px solid var(--c-line);">
+    <div class="section-head" data-reveal="up">
+      <h2>A few <em>questions.</em></h2>
+    </div>
+    <div class="pair" style="margin-top:2.2rem;">
+      <div data-reveal="up">
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Can I add more pages later?</p>
+        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">Yes — the $99 site is built the same way as our full packages, so it upgrades cleanly into the Grow package instead of getting rebuilt from scratch.</p>
+      </div>
+      <div data-reveal="up" data-delay="0.1">
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">What if I don't like the layout?</p>
+        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">You see it before anything's final and get one round of edits included. Big design changes are outside the $99 scope — that's what the full packages are for.</p>
+      </div>
+      <div data-reveal="up" data-delay="0.18">
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Do I need a domain already?</p>
+        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">No. Bring one if you have it, or tell us and we'll help you get one — that's a separate, small cost (domains aren't free to register).</p>
+      </div>
+      <div data-reveal="up" data-delay="0.26">
+        <p class="mono" style="font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color: var(--c-muted); margin-bottom:0.6rem;">Is this a subscription?</p>
+        <p style="font-size:0.95rem; line-height:1.65; color: var(--c-fg-soft);">No. $99 once. The site is yours — no monthly fee to keep it live.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta wrap pad" style="text-align:center;">
+    <h2 data-reveal="up" style="color: var(--c-bg); max-width:26ch; margin-inline:auto;">
+      See what $99 looks like <em style="color: var(--c-pop);">on your business.</em>
+    </h2>
+    <div style="margin-top:1.8rem; display:flex; justify-content:center;" data-reveal="up" data-delay="0.08">
+      <Cta99Button />
+    </div>
+  </section>
+</Base>

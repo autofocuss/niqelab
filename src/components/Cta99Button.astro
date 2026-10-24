@@ -1,0 +1,28 @@
+---
+// Reused every 2nd/3rd section on /99-website/. Switches itself from a
+// manual-inquiry fallback to a direct Stripe Payment Link the moment
+// site.stripe99Url is filled in -- no page edits needed when Stripe activates.
+import { site } from '../data/site';
+interface Props {
+  ghost?: boolean;
+}
+const { ghost = false } = Astro.props;
+const hasStripe = Boolean(site.stripe99Url);
+const cls = `btn ${ghost ? 'btn--ghost' : 'btn--solid'}`;
+---
+{hasStripe ? (
+  <a href={site.stripe99Url} target="_blank" rel="noopener" class={cls} data-fill data-magnetic="0.2">
+    <span class="btn__fill" aria-hidden="true" />Buy now — $99 &rarr;
+  </a>
+) : (
+  <button
+    type="button"
+    class={cls}
+    data-fill
+    data-magnetic="0.2"
+    data-package="$99 Starter Site"
+    data-details="One-page starter website, live in days"
+  >
+    <span class="btn__fill" aria-hidden="true" />Get started — $99 &rarr;
+  </button>
+)}
