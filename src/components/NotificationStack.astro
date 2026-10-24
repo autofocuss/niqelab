@@ -7,15 +7,9 @@
 // notification arriving -- instead of a static stack of cards. motion/
 // notifications.ts drives the loop from the full `notifications` pool.
 import { notifications } from '../data/site';
-const icons: Record<string, string> = {
-  'Website form': 'W',
-  WhatsApp: 'WA',
-  Bookings: '✓',
-  Search: 'S',
-  Maps: 'M',
-  Analytics: 'A',
-};
+import { iconFor } from '../data/notifyIcons';
 const first = notifications[0];
+const firstIcon = iconFor(first.app);
 const poolJson = JSON.stringify(notifications);
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 ---
@@ -42,7 +36,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
       </div>
       <div class="phone__notify" data-notify data-notify-pool={poolJson}>
         <div class="notice" data-slot>
-          <span class="notice__icon mono" aria-hidden="true" data-slot-icon>{icons[first.app] ?? first.app[0]}</span>
+          <span class="notice__icon" aria-hidden="true" data-slot-icon style={`background:${firstIcon.bg}`} set:html={firstIcon.svg}></span>
           <div class="notice__body">
             <div class="notice__row">
               <span class="notice__app mono" data-slot-app>{first.app.toUpperCase()}</span>

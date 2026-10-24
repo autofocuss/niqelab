@@ -7,17 +7,20 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { onPage, prefersReducedMotion, ease } from '../engine';
+import { iconFor } from '../data/notifyIcons';
 
 type Notice = { app: string; time: string; lead: string; body: string };
 
-const icons: Record<string, string> = {
-  'Website form': 'W',
-  WhatsApp: 'WA',
-  Bookings: '✓',
-  Search: 'S',
-  Maps: 'M',
-  Analytics: 'A',
-};
+// Shuffled once per page load so the loop doesn't play the same fixed
+// sequence every visit, and never repeats a notice back-to-back.
+function shuffled<T>(arr: T[]): T[] {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 export const startNotifyLoop = () => onPage(() => {
   const root = document.querySelector<HTMLElement>('[data-notify]');
@@ -27,13 +30,21 @@ export const startNotifyLoop = () => onPage(() => {
   let pool: Notice[] = [];
   try { pool = poolRaw ? JSON.parse(poolRaw) : []; } catch { pool = []; }
   const banner = root.querySelector<HTMLElement>('[data-slot]');
-  if (!pool.length || !banner || prefersReducedMotion()) return;
+  if (pool.length < 2 || !banner || prefersReducedMotion()) return;
 
-  let cursor = 1;
-  const next = () => { const n = pool[cursor % pool.length]; cursor++; return n; };
+  let order = shuffled(pool);
+  let cursor = 1; // index 0 is already painted server-side as the first visible notice
+
+  const next = () => {
+    if (cursor >= order.length) { order = shuffled(pool); cursor = 0; }
+    return order[cursor++];
+  };
 
   function paint(n: Notice) {
-    banner!.querySelector('[data-slot-icon]')!.textContent = icons[n.app] ?? n.app[0];
+    const icon = iconFor(n.app);
+    const iconEl = banner!.querySelector<HTMLElement>('[data-slot-icon]')!;
+    iconEl.style.background = icon.bg;
+    iconEl.innerHTML = icon.svg;
     banner!.querySelector('[data-slot-app]')!.textContent = n.app.toUpperCase();
     banner!.querySelector('[data-slot-time]')!.textContent = n.time;
     banner!.querySelector('[data-slot-lead]')!.textContent = n.lead;

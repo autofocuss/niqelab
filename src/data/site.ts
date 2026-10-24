@@ -153,6 +153,12 @@ export const notifications: Notification[] = [
   { app: 'Analytics', time: 'now', lead: 'Your site loaded in 1.2s', body: 'On a mobile connection' },
   { app: 'Website form', time: 'now', lead: 'New enquiry received', body: '"Do you deliver outside the city?"' },
   { app: 'Search', time: 'now', lead: 'A visitor found you on Google', body: 'Searching your business name' },
+  { app: 'Email', time: 'now', lead: 'New enquiry in your inbox', body: 'Every form submission lands here too' },
+  { app: 'WhatsApp', time: 'now', lead: 'A visitor started a chat', body: '"Can I see some examples of your work?"' },
+  { app: 'Bookings', time: 'now', lead: 'New appointment booked', body: 'Monday, 10:00 AM, via your site' },
+  { app: 'Email', time: 'now', lead: 'New enquiry in your inbox', body: '"Looking to get started next month"' },
+  { app: 'Maps', time: 'now', lead: 'Your listing was viewed', body: '12 times today' },
+  { app: 'Website form', time: 'now', lead: 'New enquiry received', body: '"What\'s your turnaround time?"' },
 ];
 
 export type Package = {
