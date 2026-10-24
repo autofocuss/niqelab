@@ -137,9 +137,8 @@ export const projects: Project[] = [
 ];
 
 export type Notification = { app: string; time: string; lead: string; body: string };
-// A larger pool than the visible stack (5 slots) so the looping notification
-// stream (NotificationStack.astro + motion/notifications.ts) runs a while
-// before repeating. Illustrative, not real client data — see the component.
+// NotificationStack.astro picks the first 4 distinct apps from this pool for
+// the hero phone's notification stack. Illustrative, not real client data.
 export const notifications: Notification[] = [
   { app: 'Website form', time: 'now', lead: 'New enquiry received', body: '"Do you have anything available this week?"' },
   { app: 'WhatsApp', time: 'now', lead: 'A visitor started a chat', body: 'From the button on your homepage' },

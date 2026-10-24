@@ -2,15 +2,20 @@
 // Illustrative, not a real dashboard: these are examples of what a good site
 // produces (a lead, a booking, a chat), the same honest-device technique
 // brandeddoctor.com uses with its own generic "Dr. Your Name" placeholder.
-// Styled as an actual iPhone (titanium frame, Dynamic Island, lock screen)
-// with ONE notification banner that slides in at a time -- like a real push
-// notification arriving -- instead of a static stack of cards. motion/
-// notifications.ts drives the loop from the full `notifications` pool.
+// Styled as an actual iPhone (titanium frame, Dynamic Island, lock screen).
+// Four notifications build up one at a time (staggered reveal, tied to the
+// page intro) and all stay on screen -- not a single banner that arrives
+// and disappears before the next one shows.
 import { notifications } from '../data/site';
 import { iconFor } from '../data/notifyIcons';
-const first = notifications[0];
-const firstIcon = iconFor(first.app);
-const poolJson = JSON.stringify(notifications);
+
+// First occurrence of 4 distinct apps, for visual variety in the stack.
+const seen = new Set<string>();
+const visible = notifications.filter((n) => {
+  if (seen.has(n.app) || seen.size >= 4) return false;
+  seen.add(n.app);
+  return true;
+});
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 ---
 <div class="phone" data-reveal="scale" data-intro>
@@ -34,18 +39,23 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
         <span class="phone__time">9:41</span>
         <span class="phone__day mono">{today}</span>
       </div>
-      <div class="phone__notify" data-notify data-notify-pool={poolJson}>
-        <div class="notice" data-slot>
-          <span class="notice__icon" aria-hidden="true" data-slot-icon style={`background:${firstIcon.bg}`} set:html={firstIcon.svg}></span>
-          <div class="notice__body">
-            <div class="notice__row">
-              <span class="notice__app mono" data-slot-app>{first.app.toUpperCase()}</span>
-              <span class="notice__time mono" data-slot-time>{first.time}</span>
+      <div class="phone__notify">
+        {visible.map((n, i) => {
+          const icon = iconFor(n.app);
+          return (
+            <div class="notice" data-reveal="up" data-intro data-delay={0.5 + i * 0.3}>
+              <span class="notice__icon" aria-hidden="true" style={`background:${icon.bg}`} set:html={icon.svg} />
+              <div class="notice__body">
+                <div class="notice__row">
+                  <span class="notice__app mono">{n.app.toUpperCase()}</span>
+                  <span class="notice__time mono">{n.time}</span>
+                </div>
+                <p class="notice__lead">{n.lead}</p>
+                <p class="notice__text">{n.body}</p>
+              </div>
             </div>
-            <p class="notice__lead" data-slot-lead>{first.lead}</p>
-            <p class="notice__text" data-slot-text>{first.body}</p>
-          </div>
-        </div>
+          );
+        })}
       </div>
       <div class="phone__home-indicator" aria-hidden="true"></div>
     </div>
